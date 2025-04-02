@@ -148,6 +148,9 @@ INSERT INTO CONDUCTORES (NOM_CON, LIC_CON, FEC_VEN_LIC, ID_VEH_CON) VALUES
 ('Luis', 'PQR678', '2025-12-31', 2);
 
 
+#trigger para ver el costo del viaje
+
+
 
 
 

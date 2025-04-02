@@ -124,6 +124,30 @@ BEGIN
     END
 END;
 
+#trigger para el control y disponibilidad de vehiculos
+CREATE TRIGGER trg_CheckVehicleAssignment
+ON CONDUCTORES
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    DECLARE @ID_VEH_CON INT;
+    DECLARE @ESTADO_DISP CHAR(1);
+    DECLARE @NOM_CON VARCHAR(10);
+    SELECT @ID_VEH_CON = i.ID_VEH_CON, @NOM_CON = i.NOM_CON
+    FROM inserted i;
+    SELECT @ESTADO_DISP = v.ESTADO_DISP
+    FROM VEHICULO v
+    WHERE v.ID_VEH = @ID_VEH_CON;
+    IF @ESTADO_DISP = 'N'
+    BEGIN
+        RAISERROR ('El vehículo asignado al conductor %s no está disponible y no se puede asignar.', 16, 1, @NOM_CON);
+        ROLLBACK TRANSACTION;
+    END
+END;
+INSERT INTO CONDUCTORES (NOM_CON, LIC_CON, FEC_VEN_LIC, ID_VEH_CON) VALUES
+('Luis', 'PQR678', '2025-12-31', 2);
+
+
 
 
 

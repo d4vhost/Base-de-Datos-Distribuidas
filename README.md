@@ -1,110 +1,101 @@
-#SCRIPT TABLAS FLOTILLA AUTOS
-CREATE ROLE empresa_viajes WITH LOGIN PASSWORD 'VIAJES123';
-GRANT CONNECT ON DATABASE empresa_viajes TO empresa_viajes;
-GRANT ALL PRIVILEGES ON DATABASE empresa_viajes TO empresa_viajes;
+CREATE DATABASE flotilla;
+GO
+USE flotilla;
+GO
 
--- Crear las tablas
-CREATE TABLE VEHICULO (
-    ID_VEH INT IDENTITY(1,1) PRIMARY KEY,
-    MAR_VEH VARCHAR(10) NOT NULL,
-    MOD_VEH VARCHAR(10) NOT NULL,
-    AÑO_VEH INT NOT NULL,
-    ESTADO_DISP CHAR(1)
+CREATE TABLE Conductor (
+    nombre VARCHAR(80) NOT NULL,
+    licenciaVigente BIT NOT NULL,
+    telefono CHAR(15) NOT NULL,
+    curp VARCHAR(20) NOT NULL,
+    disponibilidad BIT NOT NULL DEFAULT 1,
+    PRIMARY KEY (curp)
 );
 
-CREATE TABLE DOCUMENTOS (
-    ID_DOC INT IDENTITY(1,1) PRIMARY KEY,
-    TIP_DOC VARCHAR(10) NOT NULL,
-    FEC_EXP_DOC DATE NOT NULL,
-    ID_VEH_PER INT NOT NULL,
-    FOREIGN KEY (ID_VEH_PER) REFERENCES VEHICULO(ID_VEH)
+CREATE TABLE Combustible (
+    idCombustible INT NOT NULL IDENTITY(1,1),
+    tipo VARCHAR(80) NOT NULL,
+    precioPorLitro DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (idCombustible)
 );
 
-CREATE TABLE CONDUCTORES (
-    ID_CONDUCTOR INT IDENTITY(1,1) PRIMARY KEY,
-    NOM_CON VARCHAR(10) NOT NULL,
-    LIC_CON VARCHAR(10) NOT NULL,
-    FEC_VEN_LIC DATE NOT NULL,
-    ID_VEH_CON INT NOT NULL,
-    FOREIGN KEY (ID_VEH_CON) REFERENCES VEHICULO(ID_VEH)
+CREATE TABLE Vehiculo (
+    modelo VARCHAR(80) NOT NULL,
+    placa VARCHAR(15) NOT NULL,
+    anio INT NOT NULL,
+    disponibilidad BIT NOT NULL DEFAULT 1,
+    marca VARCHAR(80) NOT NULL,
+    capacidadCombustible DECIMAL(10,2) NOT NULL,
+    seguro VARCHAR(80) NOT NULL,
+    idCombustible INT NOT NULL,
+    PRIMARY KEY (placa),
+    FOREIGN KEY (idCombustible) REFERENCES Combustible (idCombustible)
 );
 
-CREATE TABLE MANTENIMIENTOS (
-    ID_MAN INT IDENTITY(1,1) PRIMARY KEY,
-    LIC_CON VARCHAR(10) NOT NULL,
-    FEC_VEN_LIC DATE NOT NULL,
-    ID_VEH_PER INT NOT NULL,
-    FOREIGN KEY (ID_VEH_PER) REFERENCES VEHICULO(ID_VEH)
+CREATE TABLE Mantenimiento (
+    idMantenimiento INT NOT NULL IDENTITY(1,1),
+    fecha DATE NOT NULL,
+    costo DECIMAL(10,2) NOT NULL,
+    descripcion VARCHAR(100) NOT NULL,
+    placa VARCHAR(15) NOT NULL,
+    PRIMARY KEY (idMantenimiento),
+    FOREIGN KEY (placa) REFERENCES Vehiculo(placa)
 );
 
-CREATE TABLE GASOLINA (
-    ID_GAS INT IDENTITY(1,1) PRIMARY KEY,
-    TIP_GAS VARCHAR(10) NOT NULL,
-    DES_GAS VARCHAR(50) NOT NULL,
-    PRECIO_X_GALON DECIMAL(10,2) NOT NULL,
-    ID_VEH_PER INT NOT NULL,
-    FOREIGN KEY (ID_VEH_PER) REFERENCES VEHICULO(ID_VEH)
+CREATE TABLE Ruta (
+    idRuta INT NOT NULL IDENTITY(1,1),
+    kilometraje DECIMAL(10,2) NOT NULL,
+    destino VARCHAR(80) NOT NULL,
+    origen VARCHAR(80) NOT NULL,
+    fecha DATE NOT NULL,
+    horaSalida TIME NOT NULL,
+    horaLlegada TIME NOT NULL,
+    placa VARCHAR(15) NOT NULL,
+    curp VARCHAR(20) NOT NULL,
+    PRIMARY KEY (idRuta),
+    FOREIGN KEY (placa) REFERENCES Vehiculo(placa),
+    FOREIGN KEY (curp) REFERENCES Conductor (curp)
 );
 
-CREATE TABLE RUTAS (
-    ID_RUT INT IDENTITY(1,1) PRIMARY KEY,
-    FEC_RUT DATE NOT NULL,
-    ORI_RUT_VIA VARCHAR(10) NOT NULL,
-    DES_RUT_VIA VARCHAR(10) NOT NULL,
-    DIS_RRE_KM DECIMAL(10,2) NOT NULL,
-    DUR_EST_VIA DECIMAL(10,2) NOT NULL,
-    ID_VEH_PER INT NOT NULL,
-    FOREIGN KEY (ID_VEH_PER) REFERENCES VEHICULO(ID_VEH)
-);
 
--- Insertar datos en VEHICULO
-INSERT INTO VEHICULO (MAR_VEH, MOD_VEH, AÑO_VEH, ESTADO_DISP) VALUES
-('Toyota', 'Corolla', 2020, 'A'),
-('Ford', 'Focus', 2018, 'B'),
-('Honda', 'Civic', 2019, 'A'),
-('Chevrolet', 'Malibu', 2021, 'A'),
-('Nissan', 'Sentra', 2022, 'B');
 
--- Insertar datos en DOCUMENTOS
-INSERT INTO DOCUMENTOS (TIP_DOC, FEC_EXP_DOC, ID_VEH_PER) VALUES
-('Seguro', '2023-01-10', 1),
-('Permiso', '2023-02-15', 2),
-('Licencia', '2023-03-20', 3),
-('Inspección', '2023-04-25', 4),
-('Registro', '2023-05-30', 5);
+-- Insertar datos en Combustible
+INSERT INTO Combustible (tipo, precioPorLitro) VALUES 
+('Magna', 24.79),
+('Premium', 25.55),
+('Diésel', 26.80);
 
--- Insertar datos en CONDUCTORES
-INSERT INTO CONDUCTORES (NOM_CON, LIC_CON, FEC_VEN_LIC, ID_VEH_CON) VALUES
-('Juan', 'ABC123', '2025-01-10', 1),
-('Maria', 'DEF456', '2025-02-15', 2),
-('Carlos', 'GHI789', '2025-03-20', 3),
-('Ana', 'JKL012', '2025-04-25', 4),
-('Pedro', 'MNO345', '2025-05-30', 5);
+-- Insertar datos en Conductor
+INSERT INTO Conductor (nombre, licenciaVigente, telefono, curp, disponibilidad) VALUES 
+('Alejandro Gonzalez Cruz', 1, '5546986133', 'GOCA040227HDFMZSA1', 1),
+('Ruben Ruiz Diaz', 1, '5546236512', 'RUDR040227HDFMZSA1', 1),
+('Luis Torres Lopez', 0, '5598683214', 'TOLL040227HDFMZSA1', 1),
+('Antonio Cruz Rosas', 1, '5590436712', 'CRRA040227HDFMZSA1', 1),
+('Pedro Fuentes Herrera', 0, '5553681243', 'FUHP040227HDFMZSA1', 1);
 
--- Insertar datos en MANTENIMIENTOS
-INSERT INTO MANTENIMIENTOS (LIC_CON, FEC_VEN_LIC, ID_VEH_PER) VALUES
-('ABC123', '2025-01-10', 1),
-('DEF456', '2025-02-15', 2),
-('GHI789', '2025-03-20', 3),
-('JKL012', '2025-04-25', 4),
-('MNO345', '2025-05-30', 5);
+-- Insertar datos en Vehiculo
+INSERT INTO Vehiculo (modelo, placa, anio, disponibilidad, marca, capacidadCombustible, seguro, idCombustible) VALUES 
+('Rifter', 'AS12-AS3', 2020, 1, 'Peugeot', 20.00, 'Qualitas', 1),
+('Saveiro', 'FDS32-12', 2021, 1, 'Volkswagen', 18.00, 'Qualitas', 2),
+('Oroch', 'FD3-45G', 2020, 1, 'Renault', 16.00, 'GNP', 3),
+('RAM 1200', 'FDL-42K', 2023, 1, 'RAM', 14.00, 'GNP', 1),
+('Rifter', 'SDF-12', 2024, 1, 'Peugeot', 15.00, 'Qualitas', 2);
 
--- Insertar datos en GASOLINA
-INSERT INTO GASOLINA (TIP_GAS, DES_GAS, PRECIO_X_GALON, ID_VEH_PER) VALUES
-('Regular', 'Gasolina sin plomo', 3.50, 1),
-('Premium', 'Alto octanaje', 4.00, 2),
-('Diesel', 'Combustible pesado', 3.80, 3),
-('Regular', 'Económico', 3.40, 4),
-('Premium', 'Máximo rendimiento', 4.20, 5);
+-- Insertar datos en Ruta
+INSERT INTO Ruta (kilometraje, destino, origen, fecha, horaSalida, horaLlegada, placa, curp) VALUES 
+(200, 'Cuautitlán', 'Toreo', '2025-02-07', '17:55:59', '21:55:59', 'AS12-AS3', 'GOCA040227HDFMZSA1'),
+(100, 'Coapa', 'Toreo', '2025-02-06', '14:31:45', '15:55:59', 'FDS32-12', 'RUDR040227HDFMZSA1'),
+(40, 'Santa Fe', 'Toreo', '2025-02-06', '13:55:12', '14:55:59', 'FD3-45G', 'TOLL040227HDFMZSA1'),
+(50, 'Lomas Verdes', 'San Mateo', '2025-02-08', '18:51:39', '19:55:59', 'FDL-42K', 'CRRA040227HDFMZSA1'),
+(60, 'Satélite', 'San Mateo', '2025-02-08', '19:52:13', '20:55:59', 'SDF-12', 'FUHP040227HDFMZSA1');
 
--- Insertar datos en RUTAS
-INSERT INTO RUTAS (FEC_RUT, ORI_RUT_VIA, DES_RUT_VIA, DIS_RRE_KM, DUR_EST_VIA, ID_VEH_PER) VALUES
-('2023-06-10', 'Ciudad A', 'Ciudad B', 100.5, 2.5, 1),
-('2023-07-15', 'Ciudad C', 'Ciudad D', 150.0, 3.0, 2),
-('2023-08-20', 'Ciudad E', 'Ciudad F', 200.7, 4.5, 3),
-('2023-09-25', 'Ciudad G', 'Ciudad H', 250.3, 5.0, 4),
-('2023-10-30', 'Ciudad I', 'Ciudad J', 300.8, 6.5, 5);
-
+-- Insertar datos en Mantenimiento
+INSERT INTO Mantenimiento (fecha, costo, descripcion, placa) VALUES 
+('2024-10-12', 5000, 'Servicio completo', 'AS12-AS3'),
+('2024-12-20', 3000, 'Servicio parcial', 'FDS32-12'),
+('2025-01-10', 4000, 'Servicio completo', 'FD3-45G'),
+('2024-08-29', 3500, 'Servicio parcial', 'FDL-42K'),
+('2025-02-01', 4500, 'Servicio completo', 'SDF-12');
 
 
 #Trigger del control de vencimiento de licencia de un conductor
@@ -149,6 +140,33 @@ INSERT INTO CONDUCTORES (NOM_CON, LIC_CON, FEC_VEN_LIC, ID_VEH_CON) VALUES
 
 
 #trigger para ver el costo del viaje
+CREATE TRIGGER trg_CalcularCostoViaje
+ON Ruta
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    DECLARE @kilometraje DECIMAL(10,2);
+    DECLARE @idCombustible INT;
+    DECLARE @precioPorLitro DECIMAL(10,2);
+    DECLARE @costo DECIMAL(10,2);
+    DECLARE @placa VARCHAR(15);
+    SELECT @kilometraje = i.kilometraje, @placa = i.placa
+    FROM inserted i;
+    SELECT @idCombustible = v.idCombustible
+    FROM Vehiculo v
+    WHERE v.placa = @placa;
+    SELECT @precioPorLitro = c.precioPorLitro
+    FROM Combustible c
+    WHERE c.idCombustible = @idCombustible;
+    SET @costo = @kilometraje * @precioPorLitro;
+    PRINT 'El costo estimado del viaje es: ' + CAST(@costo AS VARCHAR(20));
+END;
+
+INSERT INTO Conductor (nombre, licenciaVigente, telefono, curp, disponibilidad) VALUES 
+('Juan Perez', 0, '5551234567', 'PEJU040227HDFMZSA1', 1);
+
+
+
 
 
 

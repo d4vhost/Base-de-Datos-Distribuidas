@@ -166,6 +166,134 @@ INSERT INTO Conductor (nombre, licenciaVigente, telefono, curp, disponibilidad) 
 ('Juan Perez', 0, '5551234567', 'PEJU040227HDFMZSA1', 1);
 
 
+Practica Base de datos
+
+REVISAR NOMBRE DE USUARIO DE WINDOWS
+C:\Users\d4vho>echo %USERNAME%
+d4vho
+
+Abre la ventana de Servicios:
+  Presiona Win + R para abrir la ventana de Ejecutar.
+  Escribe services.msc y presiona Enter.
+
+Busca el servicio OpenSSH SSH Server:
+  En la lista de servicios, busca OpenSSH SSH Server.
+  Verifica que el estado del servicio sea Iniciado. Si no está iniciado, haz clic           derecho sobre el servicio y selecciona Iniciar.
+
+Permitir SSH a través del firewall:
+ Abre el Panel de control y ve a Sistema y seguridad > Firewall de Windows Defender >   Permitir una aplicación o característica a través del Firewall de Windows Defender.
+Asegúrate de que OpenSSH Server esté marcado para las redes privadas y públicas.
+
+DESACTIVAR FIREWALL DE WINDOWS
+COMANDO DE COPIAR Y PEGAR ARCHIVO A WINDOWS
+scp /home/d4vhost/Escritorio/data.odt d4vho@192.168.10.2:/Users/d4vho/Desktop
+
+IP UBUNTU
+192.168.10.3
+
+IP WINDOWS 
+192.168.10.2
+
+###########CREACION DE INSTANCIAS EN SQL SERVER - UBUNTU ########
+sqlcmd -S localhost -U sa -P 'sqlMyadmin' -C
+1>CREATE DATABASE INSTANCIA_A
+2>GO
+3>SELECT NAME FROM sys.databases;
+
+1>SELECT * FROM INSTANCIA_A.dbo.Estudiantes_Todos;
+2>go
+
+CERACION DE VISTAS
+CREATE TABLE Estudiantes_Quito ( 
+
+    id INT PRIMARY KEY, 
+
+    nombre VARCHAR(50), 
+
+    carrera VARCHAR(50), 
+
+    ciudad VARCHAR(50) 
+
+); 
+
+  
+
+-- Insertamos las filas correspondientes 
+
+INSERT INTO Estudiantes_Quito VALUES 
+
+(1, 'Ana Pérez', 'Ingeniería', 'Quito'), 
+
+(3, 'Carla Ruiz', 'Ingeniería', 'Quito'); 
+
+ Fragmento 2 (Estudiantes_Ambato): 
+
+ 
+
+-- Fragmento Ambato 
+
+CREATE TABLE Estudiantes_Ambato ( 
+
+    id INT PRIMARY KEY, 
+
+    nombre VARCHAR(50), 
+
+    carrera VARCHAR(50), 
+
+    ciudad VARCHAR(50) 
+
+); 
+
+  
+
+INSERT INTO Estudiantes_Ambato VALUES 
+
+(2, 'Luis Mora', 'Medicina', 'Ambato'), 
+
+(5, 'Rosa Vega', 'Medicina', 'Ambato'); 
+
+
+ Fragmento 3 (Estudiantes_Cuenca): 
+
+ 
+
+-- Fragmento Cuenca 
+
+CREATE TABLE Estudiantes_Cuenca ( 
+
+    id INT PRIMARY KEY, 
+
+    nombre VARCHAR(50), 
+
+    carrera VARCHAR(50), 
+
+    ciudad VARCHAR(50) 
+
+); 
+
+  
+
+INSERT INTO Estudiantes_Cuenca VALUES 
+
+(4, 'Mario León', 'Derecho', 'Cuenca'), 
+
+(6, 'J. Ortega', 'Derecho', 'Cuenca'); 
+
+ Si quisiéramos consultar toda la tabla original, podríamos usar una vista como esta: 
+
+ 
+
+CREATE VIEW Estudiantes_Todos AS 
+
+SELECT * FROM Estudiantes_Quito 
+
+UNION ALL 
+
+SELECT * FROM Estudiantes_Ambato 
+
+UNION ALL 
+
+SELECT * FROM Estudiantes_Cuenca; 
 
 
 

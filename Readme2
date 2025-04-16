@@ -1,0 +1,119 @@
+BASES DE DATOS ARQUITECTURA CENTRALIZADO Y DISTRIBUIDA MODELO 
+
+     Componentes principales: 
+    Servidor Central: Un unico servidor que almacena toda la base de datos 
+    Clientes: Acceden al servidor central para consultar o modificar los datos 
+
+    Caracteristicas: 
+    Centralizacion: Todos los datos se encuentran en un unico lugar (el servidor central) 
+    Acceso: Los clientes se comunican directamente con el servidor para realizar operacione 
+
+Si trabajan con una base de datos centralizada, deben presentar lo siguiente: 
+    Diagrama de la Base de Datos 📊 
+    Estructura de las tablas, relaciones (MER o relacional). 
+    Descripción de la Arquitectura 🏛️ 
+    Explicación de cómo se accede a la base central desde los clientes. 
+    Modelo de Datos 📑 
+    Modelo relacional (tablas, claves primarias y foráneas). 
+    Ejemplo de Consultas SQL 💻 
+    SELECT, INSERT, UPDATE, DELETE. 
+    Esquema de Conexión 🔗 
+    Explicación de cómo las aplicaciones acceden a la base (API, cliente-servidor). 
+    Seguridad y Respaldo 🔐 
+    Métodos de autenticación, copias de seguridad. 
+
+MODELO DE BASE DE DATOS PARA ARQUITECTURA DISTRIBUIDA 
+Nodos Distribuidos: Varios nodos que contienen partes de la base de datos 
+Red de Comunicacion: Permite la comunicacion entre los nodos distribuidos 
+
+CARACTERISTICAS  
+Distroibucion: Los datos se almacenan en multples nodos distribuidos geograficamente 
+Acceso: Los cliente pueden acceder a los datos desde los diferentes nodos 
+VENTAJAS: 
+Tolerancia a fallos: Menos propensos a fallas catastroficas porque no hay un solo punto de fallo 
+Escalamiento: Puede escalar facilmente agregando mas nodos segun sea necesario 
+
+Clasificación de bases de datos distribuidas 
+    Fragmentación horizontal es mejor si las consultas suelen acceder a subconjuntos específicos de registros (por ejemplo, por región o categoría). 
+    Fragmentación vertical es mejor si las consultas requieren solo ciertas columnas con frecuencia, reduciendo el tamaño de cada fila. 
+
+    Bases de datos distribuidas replicadas: Copian y sincronizan los mismos datos en varios nodos, mejorando disponibilidad y tolerancia a fallos.
+    Bases de datos distribuidas híbridas: Combinan fragmentación y replicación, equilibrando rendimiento, redundancia y optimización de consultas. 
+Un schema (esquema) es la estructura lógica de una base de datos que define sus tablas, columnas, relaciones, restricciones y otros elementos. 
+    Bases de datos distribuidas homogéneas: Todos los nodos usan el mismo software y estructura de datos, facilitando la integración y administración. 
+    Bases de datos distribuidas heterogéneas: Usan diferentes software y estructuras, permitiendo combinar diversas tecnologías pero con mayor complejidad. 
+
+¿Cuál es mejor? 
+Homogénea: Mejor para sistemas centralizados y fáciles de administrar. 
+Heterogénea: Útil cuando se necesitan integrar múltiples sistemas independientes con tecnologías distintas. 
+    Base de datos federada: Conjunto de bases de datos independientes que se comunican mediante una capa de integración sin necesidad de un esquema global. 
+    Multidatabase: Conjunto de bases de datos autónomas con diferentes esquemas y tecnologías, integradas para consultas conjuntas pero sin una gestión centralizada. 
+¿Cuál es mejor? 
+    Federada: Mejor cuando se necesita cooperación entre bases manteniendo su independencia. 
+    Multidatabase: Útil para acceder a múltiples bases heterogéneas sin necesidad de integración total. 
+
+Los principales desafíos en bases de datos distribuidas son: 
+    Consistencia: Mantener los datos sincronizados entre nodos. 
+    Disponibilidad: Garantizar acceso continuo a la información. 
+    Rendimiento: Optimizar tiempos de respuesta y carga. 
+    Seguridad: Proteger datos en múltiples ubicaciones. 
+    Gestión de fallos: Recuperar información tras errores o desconexiones. 
+    Complejidad: Administrar fragmentación, replicación y transacciones distribuidas. 
+
+La fragmentación horizontal es una técnica en la que una tabla se divide en subconjuntos de filas según un criterio lógico, como el valor de una columna. Esto optimiza la eficiencia y distribución de los datos en múltiples servidores. 
+
+➡️ Beneficios de la fragmentación horizontal: 
+✅ Mejora el rendimiento al reducir el volumen de datos en cada fragmento. 
+✅ Permite distribuir datos en distintos servidores, optimizando consultas. 
+✅ Aumenta la disponibilidad y facilita el mantenimiento. 
+
+Una instancia de base de datos, según lo entiendo, es como el entorno en el que se ejecuta una base de datos. Es decir, cuando instalo un sistema de gestión de base de datos (como MySQL, Oracle o SQL Server), se crea una instancia que incluye los procesos, la memoria y las configuraciones necesarias para que esa base funcione. 
+En pocas palabras, yo lo veo así: la instancia es el "motor" que hace que la base de datos pueda ser utilizada, mientras que la base de datos en sí es como el "contenido" (tablas, datos, esquemas). Puedo tener varias bases de datos dentro de una misma instancia, pero sin la instancia, esas bases no funcionarían. 
+Puerto abierto en SQL es 1433 
+
+La fragmentación vertical divide una tabla en columnas, útil cuando algunas se consultan más que otras. 
+La fragmentación horizontal divide una tabla en filas, ideal cuando los datos pueden separarse por regiones o categorías. 
+
+Replicación y Diseminación de Datos 
+    Replicación: Copiar datos en varios servidores para mejorar disponibilidad y rendimiento. 
+    Diseminación: Distribuir datos en diferentes ubicaciones según la necesidad, sin mantener sincronización total. 
+
+Update Anywhere 
+Permite modificar datos en cualquier nodo de la red, y los cambios se sincronizan automáticamente en todas las réplicas. 
+
+API significa Application Programming Interface (Interfaz de Programación de Aplicaciones).
+Es un conjunto de reglas que permiten que dos aplicaciones se comuniquen entre sí. Por ejemplo:
+    Una app móvil de clima usa una API para pedir datos del tiempo a un servidor.
+
+En resumen:
+    Una API es una interfaz para acceder a funcionalidades o datos de otro sistema.
+    No importa si se usa REST, SOAP, GraphQL, etc. – sigue siendo una API.
+
+¿Qué es REST?
+
+REST significa REpresentational State Transfer.
+
+Es un estilo de arquitectura para construir APIs. O sea, es una forma específica de crear APIs.
+
+Una API REST:
+    Usa los métodos HTTP: GET, POST, PUT, DELETE, etc.
+    Trabaja con recursos (ej: /usuarios, /productos).
+    Usa URLs limpias y predecibles.
+    Devuelve datos normalmente en formato JSON.
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
